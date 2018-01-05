@@ -2,6 +2,7 @@ import sublime
 import time
 from datetime import date
 
+
 class Printer(object):
     """ Based on printer of Mavensmate
     """

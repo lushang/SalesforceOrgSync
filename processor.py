@@ -63,6 +63,7 @@ def handle_populate_users(callback_command, timeout=120):
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Downloading Users List", "Succeed to download users list")
 
+
 def populate_sobject_recordtypes():
     """
     Get dict ([sobject, recordtype name] => recordtype id) in whole org
@@ -116,6 +117,7 @@ def populate_sobject_recordtypes():
     util.add_config_history("recordtype", sobject_recordtypes, settings)
     return sobject_recordtypes
 
+
 def handle_update_user_language(language, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -130,6 +132,7 @@ def handle_update_user_language(language, timeout=120):
     ThreadProgress(api, thread, "Updating User Language to " + language,  
         "User language is updated to " + language)
 
+
 def handle_enable_development_mode(user_id, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -141,6 +144,7 @@ def handle_enable_development_mode(user_id, timeout=120):
     ThreadProgress(api, thread, "Enabling User Development Mode",
         "Succeed to Enabling User Development Mode")
 
+
 def handle_update_user_password(user_id, new_password, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -151,6 +155,7 @@ def handle_update_user_password(user_id, new_password, timeout=120):
     masked_password = new_password[:5] + "*" * len(new_password[3:])
     ThreadProgress(api, thread, "Updating User Password to " + masked_password,  
         "Succeed to update user password to " + masked_password)
+
 
 def handle_login_thread(callback_options={}, force=False, timeout=120):
     def handle_thread(thread, timeout):
@@ -174,6 +179,7 @@ def handle_login_thread(callback_options={}, force=False, timeout=120):
     default_project_name = settings["default_project_name"]
     ThreadProgress(api, thread, "Login to %s" % default_project_name, 
         default_project_name + " Login Succeed")
+
 
 def handle_view_code_coverage(component_name, component_id, body, timeout=120):
     def handle_thread(thread, timeout):
@@ -236,6 +242,7 @@ def handle_view_code_coverage(component_name, component_id, body, timeout=120):
         "View Code Coverage of " + component_name + " Succeed")
     handle_thread(thread, timeout)
 
+
 def handle_refresh_folder(types, ignore_package_xml=True, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -269,6 +276,7 @@ def handle_refresh_folder(types, ignore_package_xml=True, timeout=120):
     handle_thread(thread, timeout)
     message = "Refresh Folder"
     ThreadProgress(api, thread, message, message+" Succeed")
+
 
 def handle_reload_symbol_tables(timeout=120):
     """
@@ -317,6 +325,7 @@ def handle_reload_symbol_tables(timeout=120):
     wating_message = "Reloading Symbol Tables"
     ThreadProgress(api, thread, wating_message, wating_message + " Succeed")
     handle_thread(thread, timeout)
+
 
 def handle_reload_sobjects_completions(timeout=120):
     """
@@ -505,6 +514,7 @@ def handle_reload_sobjects_completions(timeout=120):
     ThreadProgress(api, thread, "Global Describe", "Global Describe Succeed")
     handle_thread(api, thread, timeout)
 
+
 def handle_destructive_files(dirs_or_files, ignore_folder=True, timeout=120):
     def handle_thread(thread, timeout=120):
         if thread.is_alive():
@@ -543,6 +553,7 @@ def handle_destructive_files(dirs_or_files, ignore_folder=True, timeout=120):
     ThreadProgress(api, thread, "Destructing Files", "Destructing Files Succeed")
     handle_thread(thread, timeout)
 
+
 def handle_destructive_package_xml(types, timeout=120):
     def handle_thread(thread, timeout=120):
         if thread.is_alive():
@@ -556,6 +567,7 @@ def handle_destructive_package_xml(types, timeout=120):
     thread.start()
     ThreadProgress(api, thread, "Destructing Package.xml", "Destructing Package.xml Succeed")
     handle_thread(thread, timeout)
+
 
 def handle_deploy_thread(base64_encoded_zip, 
         source_org=None, chosen_classes=[], timeout=120):
@@ -579,6 +591,7 @@ def handle_deploy_thread(base64_encoded_zip,
         "Metadata Deployment Finished")
     handle_thread(thread, timeout)
 
+
 def handle_track_all_debug_logs_thread(users, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -599,6 +612,7 @@ def handle_track_all_debug_logs_thread(users, timeout=120):
 
     ThreadsProgress(threads, "Creating Trace Flags", "Creating Trace Flags Finished")
 
+
 def handle_cancel_deployment_thread(async_process_id, timeout=120):
     settings = context.get_settings()
     api = MetadataApi(settings)
@@ -610,12 +624,14 @@ def handle_cancel_deployment_thread(async_process_id, timeout=120):
     thread.start()
     ThreadProgress(api, thread, "Canceling Deploy", "Canceling Deploy Succeed")
 
+
 def handle_close_jobs_thread(job_ids, timeout=120):
     settings = context.get_settings()
     bulkjob = BulkJob(settings, None, None)
     for job_id in job_ids:
         thread = threading.Thread(target=bulkjob.close_job, args=(job_id,))
         thread.start()
+
 
 def handle_bulk_operation_thread(sobject, inputfile, operation, timeout=120):
     settings = context.get_settings()
@@ -633,6 +649,7 @@ def handle_bulk_operation_thread(sobject, inputfile, operation, timeout=120):
     progress_message = operation + " " + sobject
     ThreadProgress(bulkapi, thread, progress_message, progress_message + " Succeed")
 
+
 def handle_backup_sobject_thread(sobject, soql=None, timeout=120):
     settings = context.get_settings()
     bulkapi = BulkApi(settings, sobject, soql)
@@ -640,6 +657,7 @@ def handle_backup_sobject_thread(sobject, soql=None, timeout=120):
     thread.start()
     wait_message = "Export Records of " + sobject
     ThreadProgress(bulkapi, thread, wait_message, wait_message + " Succeed")
+
 
 def handle_backup_all_sobjects_thread(timeout=120):
     def handle_thread(thread, timeout):
@@ -668,6 +686,7 @@ def handle_backup_all_sobjects_thread(timeout=120):
     ThreadProgress(api, thread, "Describe Global", "Describe Global Succeed")
     handle_thread(thread, timeout)
 
+
 def handle_export_workflows(settings, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -690,6 +709,7 @@ def handle_export_workflows(settings, timeout=120):
     ThreadProgress(api, thread, "Export All Workflows", "Outputdir: " + outputdir)
     handle_thread(thread, 10)
 
+
 def handle_export_validation_rules(settings, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -710,6 +730,7 @@ def handle_export_validation_rules(settings, timeout=120):
     thread.start()
     ThreadProgress(api, thread, "Export All Validation Rules", "Validation Rules Export Succeed")
     handle_thread(thread, 10)
+
 
 def handle_export_customfield(timeout=120):
     def handle_thread(thread, timeout):
@@ -739,6 +760,7 @@ def handle_export_customfield(timeout=120):
     ThreadProgress(api, thread, 'Exporting CustomFields', "Exporting CustomFields Succeed")
     handle_thread(thread, 10)
 
+
 def handle_export_role_hierarchy(timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -766,6 +788,7 @@ def handle_export_role_hierarchy(timeout=120):
     thread.start()
     ThreadProgress(api, thread, 'Exporting Role Hierarchy', "Role Hierarchy Exporting Succeed")
     handle_thread(thread, 10)
+
 
 def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, vertical, timeout=120):
     def handle_thread(thread, timeout):
@@ -801,6 +824,7 @@ def handle_export_data_template_thread(sobject, recordtype_name, recordtype_id, 
     ThreadProgress(api, thread, wait_message, "Outputdir: " + output_file_dir)
     handle_thread(thread, 120)
 
+
 def handle_export_query_to_csv(tooling, soql, csv_name, data=None, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
@@ -827,6 +851,7 @@ def handle_export_query_to_csv(tooling, soql, csv_name, data=None, timeout=120):
     progress_message = "Export Query To %s.csv" % csv_name
     ThreadProgress(api, thread, progress_message, progress_message + " Succeed")
     handle_new_view_thread(thread, timeout)
+
 
 def handle_execute_rest_test(operation, url, data=None, timeout=120):
     def handle_new_view_thread(thread, timeout):
@@ -895,6 +920,7 @@ def handle_execute_rest_test(operation, url, data=None, timeout=120):
     ThreadProgress(api, thread, progress_message, progress_message + " Succeed", show_error=False)
     handle_new_view_thread(thread, timeout)
 
+
 def handle_execute_query(soql, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
@@ -921,6 +947,7 @@ def handle_execute_query(soql, timeout=120):
     thread.start()
     ThreadProgress(api, thread, "Execute Query", "Execute Query Succeed")
     handle_new_view_thread(thread, timeout)
+
 
 def handle_execute_anonymous(apex_string, timeout=120):
     def handle_new_view_thread(thread, timeout):
@@ -953,6 +980,7 @@ def handle_execute_anonymous(apex_string, timeout=120):
     ThreadProgress(api, thread, "Execute Anonymous", "Execute Anonymous Succeed")
     handle_new_view_thread(thread, timeout)
 
+
 def handle_fetch_debug_logs(user_full_name, user_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -975,6 +1003,7 @@ def handle_fetch_debug_logs(user_full_name, user_id, timeout=120):
         "List Debug Logs for " + user_full_name + " Succeed")
     handle_thread(thread, timeout)    
 
+
 def handle_create_debug_log(user_name, user_id, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -992,6 +1021,7 @@ def handle_create_debug_log(user_name, user_id, timeout=120):
     ThreadProgress(api, thread, "Create Debug Log for " + user_name, 
         "Create Debug Log for " + user_name + " Succeed")
     handle_thread(thread, timeout)
+
 
 def handle_view_debug_log_detail(log_id, timeout=120):
     def handle_thread(thread, timeout):
@@ -1016,6 +1046,7 @@ def handle_view_debug_log_detail(log_id, timeout=120):
     ThreadProgress(api, thread, "Get Log Detail of " + log_id, 
         "Get Log Detail of " + log_id + " Succeed")
     handle_thread(thread, timeout)
+
 
 def handle_run_test(class_name, class_id, timeout=120):
     def handle_thread(thread, timeout):
@@ -1078,6 +1109,7 @@ def handle_run_test(class_name, class_id, timeout=120):
     ThreadProgress(api, thread, "Run Test Class " + class_name, "Run Test for " + class_name + " Succeed")
     handle_thread(thread, timeout)
 
+
 def handle_run_sync_test(class_names, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1136,6 +1168,7 @@ def handle_run_sync_test(class_names, timeout=120):
     ThreadProgress(api, thread, wait_message, wait_message + " Succeed")
     handle_thread(thread, timeout)
 
+
 def handle_generate_sobject_soql(sobject, filter, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
@@ -1170,6 +1203,7 @@ def handle_generate_sobject_soql(sobject, filter, timeout=120):
     ThreadProgress(api, thread, wait_message, wait_message + ' Succeed')
     handle_new_view_thread(thread, timeout)
 
+
 def handle_describe_sobject(sobject, timeout=120):
     def handle_new_view_thread(thread, timeout):
         if thread.is_alive():
@@ -1202,6 +1236,7 @@ def handle_describe_sobject(sobject, timeout=120):
     ThreadProgress(api, thread, 'Describe ' + sobject, 'Describe ' + sobject + ' Succeed')
     handle_new_view_thread(thread, timeout)
 
+
 def handle_export_specified_workbooks(sobjects, timeout=120):
     settings = context.get_settings()
     api = ToolingApi(settings)
@@ -1217,6 +1252,7 @@ def handle_export_specified_workbooks(sobjects, timeout=120):
 
     ThreadsProgress(threads, "Generating Sobjects Workbook", 
         "Sobjects Workbook are Generated")
+
 
 def handle_export_all_workbooks(timeout=120):
     def handle_thread(thread, timeout):
@@ -1246,6 +1282,7 @@ def handle_export_all_workbooks(timeout=120):
     thread.start()
     ThreadProgress(api, thread, "Describe Global", "Describe Global Succeed")
     handle_thread(thread, timeout)
+
 
 def handle_new_project(is_update=False, timeout=120):
     def handle_thread(thread, timeout):
@@ -1320,6 +1357,7 @@ def handle_new_project(is_update=False, timeout=120):
     ThreadProgress(api, thread, wating_message, wating_message + " Finished")
     handle_thread(thread, timeout)
 
+
 def handle_describe_metadata(callback_options, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1365,6 +1403,7 @@ def handle_describe_metadata(callback_options, timeout=120):
     ThreadProgress(api, thread, "Describe Metadata of v%s.0" % settings["api_version"], 
         "Describe Metadata Finished")
 
+
 def handle_rename_metadata(file_name, meta_type, old_name, new_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1391,6 +1430,7 @@ def handle_rename_metadata(file_name, meta_type, old_name, new_name, timeout=120
         meta_type, old_name, new_name
     )
     ThreadProgress(api, thread, message, "Renaming Finished")
+
 
 def handle_reload_project_cache(types, callback_command, timeout=120):
     def handle_thread(thread, timeout):
@@ -1426,6 +1466,7 @@ def handle_reload_project_cache(types, callback_command, timeout=120):
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Reloading Project Cache", "Reload Project Cache Succeed")
 
+
 def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_xml=False, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1457,6 +1498,7 @@ def handle_retrieve_package(types, extract_to, source_org=None, ignore_package_x
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, "Retrieve File From Server", 
         "Retrieve File From Server Succeed")
+
 
 def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     def handle_thread(thread, timeout):
@@ -1608,6 +1650,7 @@ def handle_save_to_server(file_name, is_check_only=False, timeout=120):
     ThreadProgress(api, thread, wait_message, wait_message + " Succeed", show_error=False)
     handle_thread(thread, timeout)
 
+
 def handle_create_component(data, component_name, component_type, markup_or_body, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1693,6 +1736,7 @@ def handle_create_component(data, component_name, component_type, markup_or_body
         "Creating Component %s Succeed" % fullName)
     handle_thread(thread, timeout)
 
+
 def handle_set_component_attribute(attributes, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1718,6 +1762,7 @@ def handle_set_component_attribute(attributes, timeout=120):
     thread.start()
     handle_thread(thread, timeout)
 
+
 def handle_refresh_static_resource(component_attribute, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1735,7 +1780,8 @@ def handle_refresh_static_resource(component_attribute, file_name, timeout=120):
     thread.start()
     ThreadProgress(api, thread, 'Refresh StaticResource', 'Refresh StaticResource Succeed')
     handle_thread(thread, timeout)
-    
+
+
 def handle_create_static_resource(data, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1753,6 +1799,7 @@ def handle_create_static_resource(data, timeout=120):
     thread.start()
     ThreadProgress(api, thread, 'Creating StaticResource', 'Creating StaticResource Succeed')
     handle_thread(thread, timeout)
+
 
 def handle_diff_with_server(component_attribute, file_name, source_org=None, timeout=120):
     def handle_thread(thread, timeout):
@@ -1779,6 +1826,7 @@ def handle_diff_with_server(component_attribute, file_name, source_org=None, tim
     handle_thread(thread, timeout)
     ThreadProgress(api, thread, 'Diff With Server', 'Diff With Server Succeed')
 
+
 def handle_refresh_file_from_server(attr, file_name, timeout=120):
     def handle_thread(thread, timeout):
         if thread.is_alive():
@@ -1798,6 +1846,7 @@ def handle_refresh_file_from_server(attr, file_name, timeout=120):
     thread.start()
     ThreadProgress(api, thread, 'Refreshing %s' % os.path.basename(file_name), 'Refresh Succeed')
     handle_thread(thread, timeout)
+
 
 def handle_delete_component(component_url, file_name, timeout=120):
     def handle_thread(thread, timeout):

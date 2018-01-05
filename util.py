@@ -67,6 +67,7 @@ def load_templates():
 
     return templates
 
+
 def copy_files_in_folder(source_dir, target_dir):
     """ Copy folders and files in source dir to target dir
 
@@ -89,6 +90,7 @@ def copy_files_in_folder(source_dir, target_dir):
                 open(targetFile, "wb").write(open(sourceFile, "rb").read()) 
         if os.path.isdir(sourceFile): 
             copy_files_in_folder(sourceFile, targetFile)
+
 
 def copy_files(attributes, target_dir):
     """ Copy files and its related meta file to target dir
@@ -144,6 +146,7 @@ def copy_files(attributes, target_dir):
 
     return True
 
+
 def get_described_metadata(settings):
     cache_file = os.path.join(
         settings["workspace"], 
@@ -157,6 +160,7 @@ def get_described_metadata(settings):
             described_metadata = json.loads(fp.read())
 
     return described_metadata
+
 
 def get_instance(settings):
     """ Get instance by instance_url
@@ -175,6 +179,7 @@ def get_instance(settings):
     instance = base_url[2:-1]
 
     return instance
+
 
 def get_session_info(settings):
     """ Get Session Info
@@ -196,6 +201,7 @@ def get_session_info(settings):
 
     return session
 
+
 def get_package_info(settings):
     package = None
     package_directory = os.path.join(settings["workspace"], ".config", "package.json")
@@ -204,6 +210,7 @@ def get_package_info(settings):
             package = json.loads(fp.read())
 
     return package
+
 
 def view_coverage(name, file_name, body):
     settings = context.get_settings()
@@ -256,6 +263,7 @@ def view_coverage(name, file_name, body):
     view.add_regions("numLocationsCovered", covered_region, "comment", "cross",
         sublime.DRAW_SOLID_UNDERLINE | sublime.DRAW_EMPTY_AS_OVERWRITE)
 
+
 def get_local_timezone_offset():
     """ Return the timezone offset of local time with GMT standard
 
@@ -269,6 +277,7 @@ def get_local_timezone_offset():
     offset_hours = localoffset.total_seconds() / 3600
 
     return offset_hours
+
 
 # https://docs.python.org/3.2/library/datetime.html#strftime-and-strptime-behavior
 # http://stackoverflow.com/questions/12015170/how-do-i-automatically-get-the-timezone-offset-for-my-local-time-zone
@@ -286,6 +295,7 @@ def local_datetime(server_datetime_str):
 
     return local_datetime
 
+
 def server_datetime(local_datetime):
     """ Convert the Datetime got from local to GMT Standard
 
@@ -298,6 +308,7 @@ def server_datetime(local_datetime):
     server_datetime = local_datetime + datetime.timedelta(hours=-offset)
 
     return server_datetime
+
 
 def populate_all_components():
     """ Get all components from local cache
@@ -324,6 +335,7 @@ def populate_all_components():
 
     return return_component_attributes
 
+
 def populate_components(_type):
     """
     Get dict (Class Name => Class Id) which NamespacePrefix is null in whole org
@@ -346,6 +358,7 @@ def populate_components(_type):
 
     return component_settings.get(username).get(_type)
 
+
 def populate_lighting_applications():
     settings = context.get_settings()
     workspace = settings["workspace"]
@@ -363,6 +376,7 @@ def populate_lighting_applications():
             aura_attributes[aura_name] = aura_cache[name]
 
     return aura_attributes
+
 
 def populate_sobjects_describe():
     """
@@ -387,6 +401,7 @@ def populate_sobjects_describe():
         sobjects_describe[sobject_describe["name"]] = sobject_describe
     return sobjects_describe
 
+
 def populate_all_test_classes():
     # Get username
     settings = context.get_settings()
@@ -404,6 +419,7 @@ def populate_all_test_classes():
         test_class_ids.append(class_attr["id"])
 
     return test_class_ids
+
 
 def set_component_attribute(attributes, lastModifiedDate):
     """ Set the LastModifiedDate for specified component
@@ -436,7 +452,8 @@ def set_component_attribute(attributes, lastModifiedDate):
     # Save settings and show success message
     s.set(username, components_dict)
     sublime.save_settings("component_metadata.sublime-settings")
-    
+
+
 def get_sobject_caches(setting_name):
     """ Return the specified local cache of default project
 
@@ -455,6 +472,7 @@ def get_sobject_caches(setting_name):
 
     return caches
 
+
 def clear_cache(username, setting_name):
     """ Clear the specified local cache of default project
 
@@ -466,6 +484,7 @@ def clear_cache(username, setting_name):
     settings = settings.erase(username)
     sublime.save_settings(setting_name)
     sublime.status_message(username + " cache is cleared")
+
 
 def get_sobject_metadata(username):
     """ Return the sobject cache of default project
@@ -484,6 +503,7 @@ def get_sobject_metadata(username):
 
     return sobjects_metadata
 
+
 def get_symbol_tables(username):
     """ Return the sobject cache of default project
 
@@ -499,6 +519,7 @@ def get_symbol_tables(username):
         symbol_tables = symbol_tables_settings.get(username, {})
 
     return symbol_tables
+
 
 def get_sobject_completion_list(
         sobject_describe, 
@@ -539,6 +560,7 @@ def get_sobject_completion_list(
 
     return completion_list
 
+
 def get_component_completion(username, component_type, tag_has_ending=False):
     """ Return the formatted completion list of component
 
@@ -566,9 +588,10 @@ def get_component_completion(username, component_type, tag_has_ending=False):
     
     return completion_list
 
+
 def get_component_attributes(settings, component_name):
-    component_dir = os.path.join(settings["workspace"], "src", 
-        "components", component_name+".component")
+    component_dir = os.path.join(settings["workspace"], "src",
+                                 "components", component_name+".component")
     completion_list = []
     if os.path.isfile(component_dir):
         name, _type, description = "", "", ""
@@ -599,6 +622,7 @@ def get_component_attributes(settings, component_name):
 
     return completion_list
 
+
 def convert_15_to_18(the15Id):
     """ Convert Salesforce 15 Id to 18 Id
 
@@ -628,6 +652,7 @@ def convert_15_to_18(the15Id):
 
     return the15Id + "".join(chars)
 
+
 def list_chunks(l, n):
     """ Yield successive n-sized chunks from l.
 
@@ -639,11 +664,13 @@ def list_chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i+n]
 
+
 def dict_chunks(data, SIZE=10000):
     from itertools import islice
     it = iter(data)
     for i in range(0, len(data), SIZE):
         yield {k:data[k] for k in islice(it, SIZE)}
+
 
 def open_with_browser(show_url, use_default_chrome=True):
     """ Utility for open file in browser
@@ -660,6 +687,7 @@ def open_with_browser(show_url, use_default_chrome=True):
     else:
         webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(browser_path))
         webbrowser.get('chrome').open_new_tab(show_url)
+
 
 def remove_comments(view, regions):
     # Get all comment regions
@@ -690,6 +718,7 @@ def remove_comments(view, regions):
             matched_regions.append(region)
 
     return matched_regions
+
 
 def get_variable_type(view, pt, pattern):
     """Return the matched soql region
@@ -746,6 +775,7 @@ def get_variable_type(view, pt, pattern):
 
     return variable_type
 
+
 def get_soql_match_region(view, pt):
     """Return the mgatched soql region
 
@@ -782,7 +812,8 @@ def get_soql_match_region(view, pt):
         sobject_name = match_str[from_pos+5:]
         sobject_name = sobject_name.strip()
 
-    return (matched_region, is_between_start_and_from, sobject_name)
+    return matched_region, is_between_start_and_from, sobject_name
+
 
 def parse_symbol_table(symbol_table):
     """Parse the symbol_table to completion (Copied From MavensMate)
@@ -864,6 +895,7 @@ def parse_symbol_table(symbol_table):
 
     return completions
 
+
 def add_operation_history(operation, history_content):
     """Keep the history in the local history
 
@@ -890,6 +922,7 @@ def add_operation_history(operation, history_content):
     fp.write(history.encode("utf-8"))
     fp.close()
 
+
 def add_config_history(operation, content, settings, ext="json"):
     """Keep the history in the local history
 
@@ -909,6 +942,7 @@ def add_config_history(operation, content, settings, ext="json"):
     sublime.set_timeout(lambda:sublime.active_window().run_command('refresh_folder_list'), 200);
     sublime.set_timeout(lambda:sublime.active_window().run_command('refresh_folder_list'), 1300);
 
+
 def export_report_api(rootdir):
     reports = []
     for parent,dirnames,filenames in os.walk(rootdir):
@@ -924,6 +958,7 @@ def export_report_api(rootdir):
 
     list2csv(rootdir + "/test.csv", reports)
 
+
 def check_action_enabled():
     """If project in current date is not created, new component is not enabled
 
@@ -938,6 +973,7 @@ def check_action_enabled():
     # Check whether describe_metadata request is finished
     described_metadata = get_described_metadata(settings)
     return described_metadata is not None
+
 
 def get_view_by_name(view_name):
     """Get view by view name
@@ -957,6 +993,7 @@ def get_view_by_name(view_name):
                 view = v
 
     return view
+
 
 def get_view_by_file_name(file_name):
     """
@@ -979,6 +1016,7 @@ def get_view_by_file_name(file_name):
 
     return view
 
+
 def get_view_by_id(view_id):
     """
     Get the view in the active window by the view_id
@@ -994,6 +1032,7 @@ def get_view_by_id(view_id):
             view = v
 
     return view
+
 
 def get_child_types(parent_type):
     """ Get child types by parent type
@@ -1011,6 +1050,7 @@ def get_child_types(parent_type):
         child_types = [child_types]
 
     return child_types
+
 
 def parse_package_types(_types):
     """ Build structure
@@ -1097,6 +1137,7 @@ def parse_package_types(_types):
 
     return package_types
 
+
 def build_package_types(package_xml_content):
     result = xmltodict.parse(package_xml_content)
 
@@ -1119,6 +1160,7 @@ def build_package_types(package_xml_content):
 
     return types
 
+
 def build_folder_types(dirs):
     """  Build folders_dict for folder refreshing
         {
@@ -1140,6 +1182,7 @@ def build_folder_types(dirs):
         types[xml_name] = ["*"]
 
     return types
+
 
 def build_package_dict(files, ignore_folder=True):
     """ Build Package Dict as follow structure by files
@@ -1201,6 +1244,7 @@ def build_package_dict(files, ignore_folder=True):
 
     return package_dict
 
+
 def build_package_xml(settings, package_dict):
     """ Build Package XML as follow structure
         <?xml version="1.0" encoding="UTF-8"?>
@@ -1238,6 +1282,7 @@ def build_package_xml(settings, package_dict):
     """ % (" ".join(types), settings["api_version"])
 
     return package_xml_content
+
 
 def build_destructive_package_by_files(files, ignore_folder=True):
     settings = context.get_settings()
@@ -1281,6 +1326,7 @@ def build_destructive_package_by_files(files, ignore_folder=True):
     os.remove(zipfile_path)
 
     return base64_package
+
 
 def build_destructive_package_by_package_xml(types):
     """ Build destructive package,
@@ -1334,6 +1380,7 @@ def build_destructive_package_by_package_xml(types):
     os.remove(zipfile_path)
 
     return base64_package
+
 
 def build_deploy_package(files):
     # Initiate zipfile
@@ -1416,6 +1463,7 @@ def build_deploy_package(files):
 
     return base64_package
 
+
 def compress_resource_folder(resource_folder):
     """ Prepare base64 encoded zip for uploading static resource
 
@@ -1439,6 +1487,7 @@ def compress_resource_folder(resource_folder):
     base64_package = build_deploy_package([static_resource_file])
 
     return base64_package
+
 
 def build_aura_package(files_or_dirs):
     # Build package
@@ -1494,12 +1543,14 @@ def build_aura_package(files_or_dirs):
 
     return base64_package
 
+
 def base64_encode(zipfile):
     with open(zipfile, "rb") as f:
         bytes = f.read()
         base64String = base64.b64encode(bytes)
 
     return base64String.decode('UTF-8')
+
 
 def compress_package(package_dir):
     zipfile_path = package_dir+"/archive.zip"
@@ -1514,6 +1565,7 @@ def compress_package(package_dir):
     os.remove(zipfile_path)
 
     return base64_package
+
 
 def extract_encoded_zipfile(encoded_zip_file, extract_to, ignore_package_xml=False):
     """ Decode the base64 encoded file and 
@@ -1538,6 +1590,7 @@ def extract_encoded_zipfile(encoded_zip_file, extract_to, ignore_package_xml=Fal
     # we need to refresh the sublime workspace to show it
     sublime.active_window().run_command("refresh_folder_list")
 
+
 def extract_zipfile(zipfile_path, extract_to):
     """ Extract Zip File to current folder
     """
@@ -1546,7 +1599,6 @@ def extract_zipfile(zipfile_path, extract_to):
         zfile = zipfile.ZipFile(zipfile_path, 'r')
     except zipfile.BadZipFile as ex:
         raise BaseException(str(ex))
-        return
 
     if not os.path.exists(extract_to): 
         os.makedirs(extract_to)
@@ -1562,6 +1614,7 @@ def extract_zipfile(zipfile_path, extract_to):
             fp.write(zfile.read(filename))
 
     zfile.close()
+
 
 def extract_file(zipfile_path, extract_to, ignore_package_xml=False):
     zfile = zipfile.ZipFile(zipfile_path, 'r')
@@ -1585,6 +1638,7 @@ def extract_file(zipfile_path, extract_to, ignore_package_xml=False):
 
     zfile.close()
 
+
 def extract_zip(base64String, extract_to):
     """
     1. Decode base64String to zip
@@ -1604,6 +1658,7 @@ def extract_zip(base64String, extract_to):
     os.remove(zipfile_path)
 
     return zipfile_path
+
 
 def parse_package(package_content):
     """Parse package types to specified format
@@ -1655,6 +1710,7 @@ def parse_package(package_content):
         ))
 
     return "".join(elements) + "<met:version>%s</met:version>" % result["Package"]["version"]
+
 
 def reload_file_attributes(file_properties, settings=None, append=False):
     """ Keep the file attribute to local cache
@@ -1735,6 +1791,7 @@ def reload_file_attributes(file_properties, settings=None, append=False):
     # Reload component metadata cache in globals()
     sublime.set_timeout(lambda:load_metadata_cache(True, settings["username"]), 5)
 
+
 def format_debug_logs(settings, records):
     if len(records) == 0: return "No available logs."
 
@@ -1797,6 +1854,7 @@ def format_debug_logs(settings, records):
 
     return "\n" + headers + "\n" + (len(headers) * "-") + "\n" + content[:len(content)-1]
 
+
 def format_error_message(result):
     """Format message as below format
            message:     The requested resource does not exist   
@@ -1824,6 +1882,7 @@ def format_error_message(result):
 
     return error_message[:len(error_message)-1]
 
+
 def format_waiting_message(result, header=""):
     error_message = header + "\n" + "-" * 100 + "\n"
     for key in result:
@@ -1843,6 +1902,7 @@ def format_waiting_message(result, header=""):
             error_message += "\n"
 
     return error_message
+
 
 def format_xml(xml_string, indent="4"):
     """Return formatted XML string
@@ -1865,6 +1925,7 @@ def format_xml(xml_string, indent="4"):
 
     return content
 
+
 def none_value(value):
     """ If value is None, return "", if not, return string format of value
 
@@ -1875,13 +1936,15 @@ def none_value(value):
 
     if not value: return ""
     return "%s" % value
-    
+
+
 def is_python3x():
     """
     If python version is 3.x, return True
     """
 
     return sys.version > '3'
+
 
 """
 Below three functions are used to parse completions out of box.
@@ -1899,6 +1962,7 @@ def parse_namespace(publicDeclarations):
         namespaces_dict[namespace] = list(publicDeclarations[namespace].keys())
 
     return namespaces_dict
+
 
 def parse_method(methods, is_method=True):
     if not methods: return {}
@@ -1926,6 +1990,7 @@ def parse_method(methods, is_method=True):
 
     return methods_dict
 
+
 def parse_properties(properties):
     if not properties: return {}
     properties_dict = {}
@@ -1933,6 +1998,7 @@ def parse_properties(properties):
         properties_dict[property["name"]] = property["name"] + "$0"
 
     return properties_dict
+
 
 def parse_all(apex):
     """
@@ -1983,6 +2049,7 @@ def parse_all(apex):
             
     return apex_completions
 
+
 def parse_code_coverage(result):
     records = {}
     for record in result["records"]:
@@ -2016,6 +2083,7 @@ def parse_code_coverage(result):
         code_coverage += row + "\n"
 
     return message.SEPRATE.format(code_coverage_desc + columns + "\n"*2 + code_coverage)
+
 
 def parse_sync_test_coverage(result):
     successes = result["successes"]
@@ -2094,6 +2162,7 @@ def parse_sync_test_coverage(result):
 
     return "\n".join(allrows)
 
+
 def parse_test_result(test_result):
     """
     format test result as specified format
@@ -2136,6 +2205,7 @@ def parse_test_result(test_result):
 
     return return_result
 
+
 def parse_validation_rule(settings, sobjects):
     """ Parse the validation rule in Sobject.object to csv
 
@@ -2175,6 +2245,7 @@ def parse_validation_rule(settings, sobjects):
         except KeyError:
             # If one sobject doesn't have vr, We don't need do anything
             pass
+
 
 def parse_workflow_metadata(settings, sobjects):
     """Parse Sobject.workflow to csv, including rule, field update and alerts
@@ -2242,6 +2313,7 @@ def parse_workflow_metadata(settings, sobjects):
             except KeyError:
                 # If one sobject doesn't have vr, We don't need do anything
                 pass
+
 
 def write_metadata_to_csv(fp, columns, metadata, sobject):
     """ This method is invoked by function in this module
@@ -2319,7 +2391,10 @@ def write_metadata_to_csv(fp, columns, metadata, sobject):
     fp.write(row_values) # Write Body
     fp.close()
 
+
 NOT_INCLUDED_COLUMNS = ["urls", "attributes"]
+
+
 def list2csv(file_path, records):
     """convert simple dict in list to csv
 
@@ -2342,6 +2417,7 @@ def list2csv(file_path, records):
                 else:
                     values.append(('"%s"' % none_value(record[strk])).encode("utf-8"))
             fp.write(b",".join(values) + b"\n")
+
 
 def parse_data_template_vertical(output_file_dir, result):
     """Parse the data template to csv by page layout
@@ -2407,6 +2483,7 @@ def parse_data_template_vertical(output_file_dir, result):
         fp.write(",".join(fields_picklist_labels).encode("utf-8") + b"\n")
         fp.write(",".join(fields_picklist_values).encode("utf-8") + b"\n")
 
+
 def parse_data_template_horizontal(output_file_dir, result):
     """Parse the data template to csv by page layout
 
@@ -2462,6 +2539,7 @@ def parse_data_template_horizontal(output_file_dir, result):
         fp.write(u'\ufeff'.encode('utf8'))
         fp.write("\n".join(rows).encode("utf-8"))
 
+
 def get_soql_fields(soql):
     """ Get the field list of soql
 
@@ -2475,6 +2553,7 @@ def get_soql_fields(soql):
     fieldstr = match.group(0)[6:-4].replace(" ", "").replace("\n", "")
 
     return fieldstr.split(",")
+
 
 def query_to_csv(result, soql):
     records = result["records"]
@@ -2511,7 +2590,8 @@ def query_to_csv(result, soql):
         rows += ",".join(row).encode("utf-8") + b"\n"
 
     return rows
-    
+
+
 def parse_execute_anonymous_xml(result):
     """Return the formatted anonymous execute result
 
@@ -2538,6 +2618,7 @@ def parse_execute_anonymous_xml(result):
         {"&apos;": "'", "&quot;": '"'}))
 
     return view_result
+
 
 def generate_workbook(result, workspace, workbook_field_describe_columns):
     """ generate workbook for sobject according to user customized columns
@@ -2655,6 +2736,8 @@ childrelationship_key_width = {
 }
 
 seprate = 100 * "-" + "\n"
+
+
 def parse_sobject_field_result(result):
     """According to sobject describe result, display record type information, 
     child sobjects information and the field information.
@@ -2786,6 +2869,7 @@ def parse_sobject_field_result(result):
 
     return view_result
 
+
 def getUniqueElementValueFromXmlString(xmlString, elementName):
     """
     Extracts an element value from an XML string.
@@ -2801,6 +2885,7 @@ def getUniqueElementValueFromXmlString(xmlString, elementName):
         elementValue = elementsByName[0].toxml().replace('<' +\
             elementName + '>','').replace('</' + elementName + '>','')
     return unescape(elementValue, {"&apos;": "'", "&quot;": '"'})
+
 
 def get_response_error(response):
     # Debug Message
@@ -2818,6 +2903,7 @@ def get_response_error(response):
     except:
         result["Error Message"] = response.content
     return result
+
 
 def get_path_attr(path_or_file):
     """Return project name and component folder attribute
@@ -2844,6 +2930,7 @@ def get_path_attr(path_or_file):
         project_name = project_name[:-9]
 
     return project_name, metadata_folder
+
 
 def get_file_attributes(file_name):
     attributes = {}
@@ -2872,6 +2959,7 @@ def get_file_attributes(file_name):
 
     return attributes
 
+
 def get_metadata_folder(file_name):
     """ Get the metadata_folder by file_name
 
@@ -2887,6 +2975,7 @@ def get_metadata_folder(file_name):
     attributes = get_file_attributes(file_name)
     return attributes["metadata_folder"]
 
+
 def load_metadata_cache(reload_cache=False, username=None):
     """ Reload component cache in globals()
     """
@@ -2897,6 +2986,7 @@ def load_metadata_cache(reload_cache=False, username=None):
         globals()["components"] = component_metadata.get(username, {})
 
     return globals()["components"]
+
 
 def get_component_attribute(file_name, switch=True, reload_cache=False):
     """
@@ -2946,6 +3036,7 @@ def get_component_attribute(file_name, switch=True, reload_cache=False):
     # Return tuple
     return (component_attribute, name)
 
+
 def check_enabled(file_name, check_cache=True):
     """
     Check whether file is ApexTrigger, ApexComponent, ApexPage or ApexClass
@@ -2984,6 +3075,7 @@ def check_enabled(file_name, check_cache=True):
             return False
     
     return True
+
 
 def display_active_project(view):
     """ Display the default project name in the sidebar
@@ -3044,6 +3136,7 @@ def add_project_to_workspace(settings):
         folders.append(switch_to_folder)
     sublime.active_window().set_project_data({"folders": folders})
 
+
 def get_completion_list(meta_type, meta_folder):
     """ Get the name list by specified metadataObject
 
@@ -3095,6 +3188,7 @@ def get_completion_list(meta_type, meta_folder):
 
     return completion_list
 
+
 def get_metadata_elements(metadata_dir):
     """ Get the name list by specified metadataObject
     
@@ -3114,6 +3208,7 @@ def get_metadata_elements(metadata_dir):
             elements.append(name)
 
     return elements
+
 
 def export_role_hierarchy(records):
     settings = context.get_settings()
@@ -3144,6 +3239,7 @@ def export_role_hierarchy(records):
 
     return outputfile
 
+
 def append_child_roles(rolemap, role_id, rows, level, include_users):
     child_roles = []
     for role in rolemap.values():
@@ -3172,6 +3268,7 @@ def append_child_roles(rolemap, role_id, rows, level, include_users):
         rows.append(row)
 
         append_child_roles(rolemap, role["Id"], rows, level + 1, include_users)
+
 
 def export_profile_settings():
     settings = context.get_settings()
@@ -3437,6 +3534,7 @@ def export_profile_settings():
     with open(outputdir+"/FieldLevelSecurity.csv", "wb") as fp:
         fp.write("\n".join(all_rows).encode("utf-8"))
 
+
 def build_metadata(csvfile, options):
     """ Convert JSON to custom labels metadata """
     rjson = convert_csv_to_json(csvfile, options.get("xmlNodes"))
@@ -3448,6 +3546,7 @@ def build_metadata(csvfile, options):
     }
 
     return xmltodict.unparse(custom_labels_json)
+
 
 def convert_csv_to_json(csvfile, xmlNodes):
     """ Convert CSV to JSON format"""

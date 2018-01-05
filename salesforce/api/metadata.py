@@ -12,7 +12,8 @@ from ..login import soap_login
 from ... import requests, util
 from ..lib.panel import Printer
 
-class MetadataApi():
+
+class MetadataApi:
     def __init__(self, settings, **kwargs):
         self.settings = settings
         self.api_version = settings["api_version"]

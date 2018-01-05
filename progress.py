@@ -6,7 +6,7 @@ from . import context
 from .salesforce.lib.panel import Printer
 
 
-class ThreadProgress():
+class ThreadProgress:
     """
     Stolen from Package Control Source Code, ni dong de
     
@@ -53,8 +53,7 @@ class ThreadProgress():
         before = i % self.size
         after = (self.size - 1) - before
 
-        sublime.status_message('%s [%s=%s]' % \
-            (self.message, ' ' * before, ' ' * after))
+        sublime.status_message('%s [%s=%s]' % (self.message, ' ' * before, ' ' * after))
 
         if not after:
             self.addend = -1
@@ -63,6 +62,7 @@ class ThreadProgress():
         i += self.addend
 
         sublime.set_timeout(lambda: self.run(i), 100)
+
 
 class ThreadsProgress():
     """
@@ -107,7 +107,8 @@ class ThreadsProgress():
 
         sublime.set_timeout(lambda: self.run(i), 100)
 
-    def is_threads_end(self, threads):
+    @staticmethod
+    def is_threads_end(threads):
         """
         Indicate whether all threads are end
 

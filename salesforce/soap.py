@@ -7,19 +7,6 @@ from .lib import xmlformatter
 from .login import soap_login
 from .lib.panel import Printer
 
-"""
-from .salesforce.soap import SOAP
-from . import context
-
-settings = context.get_settings()
-soap = SOAP(settings)
-soap.create_request('readMetadata', {
-    "types": {
-        "CustomObject": ["haoliu__Expense__c"]
-    }
-})
-"""
-
 class SOAP():
     def __init__(self, settings, indent=4, **kwargs):
         self.settings = settings

@@ -17,11 +17,13 @@ DEFAULT_ENCODING_INPUT = None
 DEFAULT_ENCODING_OUTPUT = None
 
 
-class Formatter():
+class Formatter:
     # Use internal encoding:
     encoding_internal = None
 
-    def __init__(self, indent = DEFAULT_INDENT, preserve = [], compress = DEFAULT_COMPRESS, indent_char = DEFAULT_INDENT_CHAR, encoding_input = DEFAULT_ENCODING_INPUT, encoding_output = DEFAULT_ENCODING_OUTPUT, inline = DEFAULT_INLINE, correct = DEFAULT_CORRECT):
+    def __init__(self, indent=DEFAULT_INDENT, preserve=[], compress=DEFAULT_COMPRESS, indent_char=DEFAULT_INDENT_CHAR,
+                 encoding_input=DEFAULT_ENCODING_INPUT, encoding_output=DEFAULT_ENCODING_OUTPUT, inline=DEFAULT_INLINE,
+                 correct=DEFAULT_CORRECT):
         # Minify the XML document:
         self.compress = compress
         # Correct text nodes
@@ -654,6 +656,7 @@ class Formatter():
             str += "?>\n"
             return str
 
+
 def cli_usage(msg=""):
     """ Output usage for command line tool. """
     sys.stderr.write(msg+"\n")
@@ -662,6 +665,7 @@ def cli_usage(msg=""):
  [--encoding enc] [--outencoding enc] [--disable-inlineformatting]\
  [--disable-correction] [--help] <--infile file | file | - >\n")
     sys.exit(2)
+
 
 def cli():
     """ Launch xmlformatter from command line. """

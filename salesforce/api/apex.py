@@ -12,7 +12,7 @@ from ..login import soap_login
 from ... import requests, util
 
 
-class ApexApi():
+class ApexApi:
     def __init__(self, settings, **kwargs):
         self.settings = settings
         self.soap = SOAP(settings)

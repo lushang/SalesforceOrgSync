@@ -10,7 +10,8 @@ from ... import requests, util
 from ..api.tooling import ToolingApi
 from ..lib.panel import Printer
 
-class BulkApi():
+
+class BulkApi:
     def __init__(self, settings, sobject, input=None, external_field=None):
         self.settings = settings
         self.sobject = sobject
@@ -31,7 +32,7 @@ class BulkApi():
             outputfile = os.path.dirname(self.input) +\
                 "/log/%s-%s-%s.csv" % (self.sobject, operation, time_stamp)
         else:
-            outputfile = self.settings["workspace"] + "/bulkout/%s.csv" % (self.sobject)
+            outputfile = self.settings["workspace"] + "/bulkout/%s.csv" % self.sobject
 
         if not os.path.exists(os.path.dirname(outputfile)):
             os.mkdir(os.path.dirname(outputfile))
@@ -44,7 +45,7 @@ class BulkApi():
                 fp.write(u'\ufeff'.encode('utf8'))
                 fp.write(result)
             except:
-                print (self.sobject + " export is failed")
+                print(self.sobject + " export is failed")
             finally:
                 fp.close()
 
@@ -122,7 +123,8 @@ class BulkApi():
 
         return batch_ids
 
-    def combine_results(self, results):
+    @staticmethod
+    def combine_results(results):
         combined_result = results[0]
         for result in results[1:]:
             result = result.replace(b'"Id","Success","Created","Error"\n', b"")
@@ -171,7 +173,8 @@ class BulkApi():
         self.result = result
         return result
 
-class BulkJob():
+
+class BulkJob:
     def __init__(self, settings, operation, sobject, external_field=None, **kwargs):
         self.settings = settings
         self.operation = operation
@@ -305,7 +308,7 @@ class BulkJob():
 
     # Get: https://instance.salesforce.com/services/async/27.0/job/jobId/batch/batchId/result/resultId
     def get_batch_result(self, batch_id, result_id=None):
-        if result_id != None:
+        if result_id is not None:
             # Query action
             url = self.base_url + "/job/%s/batch/%s/result/%s" % (self.job_id, batch_id, result_id)
         else:

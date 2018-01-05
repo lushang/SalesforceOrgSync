@@ -13,7 +13,8 @@ from ... import requests, util, context
 from ..login import soap_login
 from ..lib.panel import Printer
 
-class ToolingApi():
+
+class ToolingApi:
     def __init__(self, settings, **kwargs):
         self.settings = settings
         self.api_version = settings["api_version"]
